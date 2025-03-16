@@ -14,15 +14,28 @@
 //   console.log(`Servidor em execução em http://localhost:3000/`);
 // });
 
-import express from "express";
+// import express from "express";
 
+// const port = 3000;
+// const app = express();
+
+// app.get("/filmes", (req, res) => {
+//   res.send("Listagem de filmes");
+// });
+
+// app.listen(port, () => {
+//   console.log(`Servidor em execução em http://localhost:${port}`);
+// });
+
+import express from "express";
+import { PrismaClient } from "@prisma/client";
 const port = 3000;
 const app = express();
-
-app.get("/filmes", (req, res) => {
-  res.send("Listagem de filmes");
+const prisma = new PrismaClient();
+app.get("/movies", async (req, res) => {
+  const movies = await prisma.movie.findMany();
+  res.json(movies);
 });
-
 app.listen(port, () => {
   console.log(`Servidor em execução em http://localhost:${port}`);
 });

@@ -127,6 +127,30 @@ app.delete("/movies/:id", async (req, res) => {
   res.status(200).send();
 });
 
+app.get("/movies/:genreName", async (req, res) => {
+  console.log(req.params.genreName);
+  try {
+    const moviesFilteredByGenreName = await prisma.movie.findMany({
+      include: {
+        genre: true,
+        language: true,
+      },
+
+      where: {
+        genre: {
+          name: {
+            equals: req.params.genreName,
+            mode: "insensitive",
+          },
+        },
+      },
+    });
+    res.status(200).send(moviesFilteredByGenreName);
+  } catch (error) {
+    return res.status(500).send({ message: "Falha ao atualizar um filme" });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Servidor em execução em http://localhost:${port}`);
 });

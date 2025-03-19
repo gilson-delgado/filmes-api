@@ -29,12 +29,16 @@
 
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "../swagger.json";
 const port = 3000;
 const app = express();
 const prisma = new PrismaClient();
 
 app.use(express.json());
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+// pesquisar fimes no banco de dados
 app.get("/movies", async (_, res) => {
   const movies = await prisma.movie.findMany({
     orderBy: {
@@ -48,6 +52,8 @@ app.get("/movies", async (_, res) => {
   res.json(movies);
 });
 
+
+//Atualizando filmes inclusão de um novo filme
 app.post("/movies", async (req, res) => {
   const { title, genre_id, language_id, oscar_count, release_date } = req.body;
 
@@ -83,6 +89,7 @@ app.post("/movies", async (req, res) => {
   res.status(201).send();
 });
 
+//Atualizando filmes parte 2 alterações nos dados
 app.put("/movies/:id", async (req, res) => {
   console.log(req.params.id);
   const id = Number(req.params.id);
@@ -108,6 +115,8 @@ app.put("/movies/:id", async (req, res) => {
   res.status(200).send();
 });
 
+
+//remover filmes
 app.delete("/movies/:id", async (req, res) => {
   const id = Number(req.params.id);
 
@@ -127,6 +136,7 @@ app.delete("/movies/:id", async (req, res) => {
   res.status(200).send();
 });
 
+//filtrar filmes por genero
 app.get("/movies/:genreName", async (req, res) => {
   console.log(req.params.genreName);
   try {
@@ -150,6 +160,8 @@ app.get("/movies/:genreName", async (req, res) => {
     return res.status(500).send({ message: "Falha ao atualizar um filme" });
   }
 });
+
+
 
 app.listen(port, () => {
   console.log(`Servidor em execução em http://localhost:${port}`);

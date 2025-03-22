@@ -133,7 +133,7 @@ app.delete("/movies/:id", async (req, res) => {
   } catch (error) {
     res.status(500).send({ message: "Falha ao remover o registro" });
   }
-  res.status(200).send();
+  res.status(200).send({message:"Filme removido com sucesso"});
 });
 
 //filtrar filmes por genero

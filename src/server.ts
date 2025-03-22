@@ -112,7 +112,7 @@ app.put("/movies/:id", async (req, res) => {
     return res.status(500).send({ message: "Falha ao atualizar o registro" });
   }
 
-  res.status(200).send();
+  res.status(200).send({message: "Atualizado com susseço"});
 });
 
 

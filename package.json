@@ -1,9 +1,11 @@
 {
-  "name": "filmesflix.api",
+  "name": "filmesflix-api",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "npx tsx watch src/server.ts"
+    "dev": "npx tsx watch src/server.ts",
+    "start": "node dist/src/server.js",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

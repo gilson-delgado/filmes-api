@@ -1,36 +1,9 @@
-// const http = require("http");
-// const server = http.createServer((req, res) => {
-//   res.setHeader("Content-Type", "text/plain");
-
-//   if (req.url === "/") {
-//     res.statusCode = 200;
-//     res.end("Home page");
-//   } else if (req.url === "/sobre") {
-//     res.statusCode = 200;
-//     res.end("About page");
-//   }
-// });
-// server.listen(3000, () => {
-//   console.log(`Servidor em execução em http://localhost:3000/`);
-// });
-
-// import express from "express";
-
-// const port = 3000;
-// const app = express();
-
-// app.get("/filmes", (req, res) => {
-//   res.send("Listagem de filmes");
-// });
-
-// app.listen(port, () => {
-//   console.log(`Servidor em execução em http://localhost:${port}`);
-// });
-
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../swagger.json";
+
+
 const port = 3000;
 const app = express();
 const prisma = new PrismaClient();
@@ -76,8 +49,8 @@ app.post("/movies", async (req, res) => {
         genre_id,
         language_id,
         oscar_count,
-        release_date: new Date(),
-      },
+        release_date: new Date()
+      }
     });
 
     return res.status(201).send({ message: "Filme criado com sucesso!" }); // Retorno aqui
@@ -109,6 +82,7 @@ app.put("/movies/:id", async (req, res) => {
 
     await prisma.movie.update({ where: { id }, data: data });
   } catch (error) {
+    console.log(error);
     return res.status(500).send({ message: "Falha ao atualizar o registro" });
   }
 
@@ -131,6 +105,7 @@ app.delete("/movies/:id", async (req, res) => {
 
     await prisma.movie.delete({ where: { id } });
   } catch (error) {
+    console.log(error);
     res.status(500).send({ message: "Falha ao remover o registro" });
   }
   res.status(200).send({message:"Filme removido com sucesso"});
@@ -157,7 +132,8 @@ app.get("/movies/:genreName", async (req, res) => {
     });
     res.status(200).send(moviesFilteredByGenreName);
   } catch (error) {
-    return res.status(500).send({ message: "Falha ao atualizar um filme" });
+    console.log(error);
+    return res.status(500).send({ message: "Erro interno do servidor" });
   }
 });
 

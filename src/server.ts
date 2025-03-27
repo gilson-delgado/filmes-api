@@ -3,8 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../swagger.json";
 
-
-const port = 3000;
+const port = 3001;
 const app = express();
 const prisma = new PrismaClient();
 

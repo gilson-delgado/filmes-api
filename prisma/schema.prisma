@@ -11,14 +11,14 @@ datasource db {
 model genre {
   id    Int     @id @default(autoincrement())
   name  String? @db.VarChar(100)
-  movie movie[]
+  movies movie[]
   @@map("genre")
 }
 
 model language {
   id    Int     @id @default(autoincrement())
   name  String? @db.VarChar(100)
-  movie movie[]
+  movies movie[]
   @@map("language")
 }
 
@@ -31,5 +31,5 @@ model movie {
   oscar_count  Int?
   genre        genre?    @relation(fields: [genre_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_genre")
   language     language? @relation(fields: [language_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_language")
-@@map("movie")
+@@map("movies")
 }
